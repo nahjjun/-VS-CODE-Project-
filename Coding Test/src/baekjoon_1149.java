@@ -28,8 +28,7 @@ import java.util.StringTokenizer;
 public class baekjoon_1149 {
     static int N;
     static int[][] RGB; // 각 RGB별 가격
-    // dp에서 쓸 배열
-    static int[][] list;
+
 
     public static void main(String[] args) throws IOException{
         // n 입력받기
@@ -46,33 +45,46 @@ public class baekjoon_1149 {
             RGB[i][2] = Integer.parseInt(st.nextToken());
         }
 
-        list = new int[3][N]; // 계산 결과를 저장할 list
+        int result = dp();
         
-        // list 마지막값 설정
-        list[0][N-1] = RGB[N-1][0];
-        list[1][N-1] = RGB[N-1][1];
-        list[2][N-1] = RGB[N-1][2];
-
-        int result1 = dp(0, 0);
-        int result2 = dp(1, 0);
-        int result3 = dp(2, 0);
-        
-        System.out.println(Math.min(result1, Math.min(result2, result3)));
+        System.out.println(result);
     }
 
-    // 최종 결과를 반환해주는 dp 함수 (top-down 방식)
-    public static int dp(int row, int col){
-        //  현재 있는 좌표가 이미 채워져있는 경우(해당 값은 이미 최솟값이므로) 
-        // OR 현재 있는 열이 N인 경우, 해당 좌표값 return하기
-        if(col == N || list[row][col] > 0){
-            return list[row][col];
+    // 최종 결과를 반환해주는 dp 함수
+    public static int dp(){
+        int[][] list = new int[3][N]; // 계산 결과를 저장할 list
+        
+        // list 처음 열 값 초기화
+        list[0][0] = RGB[0][0];
+        list[1][0] = RGB[0][1];
+        list[2][0] = RGB[0][2];
+
+        // 이전 열의 RGB 여부 => R:0, G:1, B:2
+        int prev[] = new int[3];
+        prev[0] = 0;
+        prev[1] = 1;
+        prev[2] = 2;
+
+        // 1열 ~ N-1열까지 이전값 기준으로 값 갱신
+        for(int col=1; col<N; col++){
+            for(int i=0; i<3; i++){ // 각 좌표[i][col] 검사
+                
+                // 전 열에서 사용하지 않은 값들 중 최솟값 가져오기
+                int min = Integer.MAX_VALUE;
+                for(int j=0; j<3; j++){
+                    if(j != prev[i] && min > RGB[col][j]) {
+                        min = RGB[col][j];
+                        // prev 값 최신화
+                        prev[i] = j;
+                    }
+                }
+
+                // 최솟값 가져오면, 해당 값과 이전의 값을 더해서 list에 최신화
+                list[i][col] = list[i][col-1]+min;
+            }
         }
-        
-        // 현재 좌표가 채워지지 않은 경우, 두 경우의 수를 비교해서 계산한다
-        int plus = Math.min(dp((row+1)%3, col+1), dp((row+2)%3, col+1));
-        
-        list[row][col] = RGB[col][row] + plus;
-        return list[row][col];
+        return Math.min(list[0][N-1], Math.min(list[1][N-1], list[2][N-1]));
+
     }
 
 }
