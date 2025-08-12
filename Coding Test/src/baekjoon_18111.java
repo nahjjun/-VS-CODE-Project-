@@ -49,7 +49,7 @@ public class baekjoon_18111 {
     static int time = Integer.MAX_VALUE;
     static int height=0;
 
-    public static class Point{
+    static class Point{
         public int row, col;
         public int height;
         public Point(int row, int col, int height){

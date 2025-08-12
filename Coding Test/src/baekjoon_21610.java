@@ -72,10 +72,10 @@ public class baekjoon_21610 {
 
         // cloud 큐 초기화
         cloud = new ArrayDeque<>();
-        cloud.add(new Point(1, N));
-        cloud.add(new Point(2, N));
+        cloud.add(new Point(0, N-1));
         cloud.add(new Point(1, N-1));
-        cloud.add(new Point(2, N-1));
+        cloud.add(new Point(0, N-2));
+        cloud.add(new Point(1, N-2));
         
         for(int i=0; i<M; ++i){
             solution(d[i], s[i]);
@@ -130,7 +130,9 @@ public class baekjoon_21610 {
                 list[y][x]++;
             }
         }
-        
+        // 구름 전부 제거
+        cloud.clear();
+
         // 5. 배열 전체를 확인하며 물의 양이 2 이상인 칸에 구름을 생성한다. 해당 좌표의
         // 물 수위는 2 낮춘다. 이때, prev[][]좌표값이 round와 같은 곳은 그냥 지나친다
         for(int i=0; i<N; ++i){
@@ -183,7 +185,25 @@ public class baekjoon_21610 {
         }
         dx *= S;
         dy *= S;
-        return new Point((int)p.getX()+dx, (int)p.getY()+dy);
+
+        // 만약 움직일 좌표가 범위를 벗어난 경우, 다시 범위 안으로 연결시켜준다.
+        int nextX = (int)p.getX()+dx;
+        int nextY = (int)p.getY()+dy;
+
+        while(nextX < 0){
+            nextX += N;
+        }
+        while(nextX >= N){
+            nextX -= N;
+        }
+        while(nextY < 0){
+            nextY += N;
+        }
+        while(nextY >= N){
+            nextY -= N;
+        }
+
+        return new Point(nextX, nextY);
     }
 
 
