@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 
 public class baekjoon_9251 {
     static String s1, s2;
+    static int[][] dp;
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,14 +28,27 @@ public class baekjoon_9251 {
         s1 = br.readLine();
         s2 = br.readLine();
 
+        dp = new int[s1.length()+1][s2.length()+1];
+
         int result = solution();
         System.out.println(result);
         br.close();
     }
 
+    // 순서도 고려해야한다. DP 문제
     public static int solution(){
-        
+        for(int i=1; i<=s1.length(); ++i){
+            for(int j=1; j<=s2.length(); ++j){
+                if(s1.charAt(i-1) == s2.charAt(j-1)){
+                    dp[i][j] = dp[i-1][j-1]+1;
+                } else {
+                    // 같지 않은 경우, 이전 두 값 중 더 큰 값 가져옴
+                    dp[i][j] = Math.max(dp[i][j-1], dp[i-1][j]);
+                }
 
+            }
+        }
+        return dp[s1.length()][s2.length()];
     }
 
 }
