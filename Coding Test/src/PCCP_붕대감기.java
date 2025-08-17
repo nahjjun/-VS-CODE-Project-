@@ -1,7 +1,7 @@
 import java.util.*;
 
 
-class Solution {
+public class PCCP_붕대감기 {
     public int solution(int[] bandage, int health, int[][] attacks) {
         int t = bandage[0]; // 시전 시간
         int x = bandage[1]; // 초당 회복량
