@@ -1,5 +1,6 @@
 import java.util.*;
 
+// bfs가 아니라, 행 먼저 이동하고 이후 열로 이동하는 식으로 최단거리를 찾으면 되는 문제였다
 public class PCCP_충돌위험찾기 {
     static int R; // 물류 센터의 행 길이
     static int C; // 물류 센터의 열 길이
@@ -118,4 +119,5 @@ public class PCCP_충돌위험찾기 {
         }
         return shortestRoute;
     }
+    
 }
