@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "baekjoon_1780",
+            "request": "launch",
+            "mainClass": "baekjoon_1780",
+            "projectName": "Coding Test_b2d0e626"
+        },
+        {
+            "type": "java",
             "name": "baekjoon_1992",
             "request": "launch",
             "mainClass": "baekjoon_1992",
